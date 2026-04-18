@@ -1,0 +1,31 @@
+package utilities;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import javax.swing.tree.ExpandVetoException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FilterReader;
+import java.io.IOException;
+import java.util.Properties;
+
+public class FileReader {
+
+    public static String configReader(String key){
+        Properties properties=new Properties();
+        try {
+            FileInputStream files=new FileInputStream("src/test/resources/Config.properties");
+            properties.load(files);
+        }catch (Exception e){
+            throw new RuntimeException("Unable to Read the ConfigFile"+e.getMessage());
+        }
+        return properties.getProperty(key);
+    }
+    public static String jsonReader(String key) throws IOException, ParseException {
+        JSONParser parser=new JSONParser();
+        JSONObject json= (JSONObject) parser.parse(new java.io.FileReader("src/test/resources/testData/FirstDataSet.json"));
+        return json.get(key).toString();
+    }
+}
