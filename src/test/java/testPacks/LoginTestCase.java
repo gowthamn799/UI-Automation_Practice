@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class LoginTestCase extends BaseClass {
 
-    @Test
+    @Test(groups = {"smoke"})
     public void Login() throws IOException, ParseException {
         LoginPage loginPage=new LoginPage(driver);
         loginPage.setLoginButton();
@@ -18,4 +18,9 @@ public class LoginTestCase extends BaseClass {
         loginPage.setRememberMe();
         loginPage.setSubmittButton();
     }
+    @Test(groups = {"sanity"})
+    public void test2(){
+        System.out.println("Sanity is running");
+    }
+
 }
