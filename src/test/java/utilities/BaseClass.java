@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeTest;
 
 public class BaseClass extends FileReader {
 
+
     public  WebDriver driver;
     @BeforeMethod
     public void setUp(){

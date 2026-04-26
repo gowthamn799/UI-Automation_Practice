@@ -1,0 +1,62 @@
+name: Selenium CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '30 4 * * *'   # 10:00 AM IST (UTC 4:30)
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [chrome]   # you can extend to firefox later
+
+    steps:
+
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Cache Maven Dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Install Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+
+    - name: Build Project
+      run: mvn clean install -DskipTests
+
+    - name: Run Selenium Tests
+      run: mvn test
+
+    - name: Upload Test Reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test-Reports
+        path: target/surefire-reports/
+
+    - name: Archive Logs (Optional)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: Logs
+        path: logs/
