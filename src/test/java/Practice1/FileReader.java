@@ -13,6 +13,17 @@ public class FileReader {
 
     public static String configReader(String key){
         Properties properties=new Properties();
+        try{
+            FileInputStream files=new FileInputStream("src/test/resources/Config.properties");
+            properties.load(files);
+        }catch (Exception e){
+            throw new RuntimeException("unable to read the configFile "+e.getMessage());
+        }
+        return properties.getProperty(key);
+    }
+    public static String jsonReader(String key) throws IOException, ParseException {
+        JSONParser parser=new JSONParser();
+        JSONObject json= (JSONObject) parser.parse(new java.io.FileReader("src/test/resources/testData/DataSet1.data"));
         try {
             FileInputStream files=new FileInputStream("src/test/resources/Config.properties");
             properties.load(files);
