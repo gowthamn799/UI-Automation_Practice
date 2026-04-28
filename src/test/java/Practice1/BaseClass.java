@@ -22,21 +22,6 @@ public class BaseClass extends FileReader{
         driver.manage().deleteAllCookies();
     }
     @AfterMethod
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-
-public class BaseClass {
-    WebDriver driver;
-    @BeforeTest
-    public void setUp(){
-        ChromeOptions options=new ChromeOptions();
-        options.addArguments("--incognito");
-        options.addArguments("--start-maximized");
-        options.addArguments("--headless=new");
-        options.addArguments("--disabled-notification");
-        driver=new ChromeDriver(options);
-    }
-    @AfterTest
     public void tearDown(){
         driver.quit();
     }
